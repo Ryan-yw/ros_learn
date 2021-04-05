@@ -1,0 +1,153 @@
+/--------------------------------安装------------------------------------------/
+https://wiki.ros.org/melodic/Installation/Ubuntu
+
+/------------------------------环境变量----------------------------------------/
+查看：printenv | grep ROS
+常用的：ROS_ROOT    ROS_PACKAGE_PATH
+
+ROS_PACKAGE_PATH:/opt/ros/melodic/share  //ros自己的库在这个路径下，想要使用必须添加到steup.bash
+自己写的可以随意定义路径，但要添加路径到setup.bash.
+source /opt/ros/kinetic/setup.bash
+
+/------------------------------创建工作空间------------------------------------/
+$ mkdir -p ~/catkin_ws/src
+$ cd ~/catkin_ws/
+$ catkin_make
+$ source devel/setup.bash
+$ echo $ROS_PACKAGE_PATH
+/home/youruser/catkin_ws/src:/opt/ros/kinetic/share
+
+/--------------------------------常用指令------------------------------------/
+$ rospack find [package_name]   //查看包的路径
+$ roscd 
+$ rosls
+$ rospack depends1 beginner_tutorials //查看包的直接依赖 
+$ rospack depends beginner_tutorials  //查看包的间接依赖（所有）
+
+/----------------------------------包的结构----------------------------------/
+workspace_folder/        -- WORKSPACE
+  src/                   -- SOURCE SPACE
+    CMakeLists.txt       -- 'Toplevel' CMake file, provided by catkin
+    package_1/
+      CMakeLists.txt     -- CMakeLists.txt file for package_1
+      package.xml        -- Package manifest for package_1
+    ...
+    package_n/
+      CMakeLists.txt     -- CMakeLists.txt file for package_n
+      package.xml        -- Package manifest for package_n
+
+
+
+/----------------------------------创建包----------------------------------/
+$ cd ~/catkin_ws/src
+$ catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+$ cd ~/catkin_ws
+$ catkin_make
+$ . ~/catkin_ws/devel/setup.bash  or    $ source devel/setup.bash  
+
+#catkin_create_pkg <package_name> [depend1] [depend2] [depend3]
+
+
+/-----------------------------package.xml---------------------------------/
+这里说明了基本信息，谁在维护，license，依赖。
+依赖信息：
+Build Dependencies                 <build_depend>
+Build Export Dependencies          <build_export_depend> 
+Execution Dependencies             <exec_depend>
+Test Dependencies                  <test_depend>
+Build Tool Dependencies            <buildtool_depend>
+Documentation Tool Dependencies    <doc_depend>
+
+
+/-------------------------------节点------------------------------------/
+roscore 
+rosrun
+rosnode   $ rosrun [package_name] [node_name]
+
+/------------------------------话题通信----------------------------------/
+rostopic
+
+/------------------------------服务通信----------------------------------/
+rosservice
+rosparam
+
+
+/---------------------------------rqt-----------------------------------/
+$ rosrun rqt_graph rqt_graph                      //节点-消息关系图
+$ rosrun rqt_plot rqt_plot                        //具体参数的曲线图
+$ rosrun rqt_console rqt_console                  //
+$ rosrun rqt_logger_level rqt_logger_level
+
+
+/--------------------------------launch---------------------------------/
+$ roslaunch [package] [filename.launch]
+launch文件可同时启动多个节点
+
+
+/--------------------------------自定义消息类型---------------------------/
+// .msg  //
+$ roscd beginner_tutorials
+$ mkdir msg
+$ echo "int64 num" > msg/Num.msg
+
+// package.xml  //
+<build_depend>message_generation</build_depend>
+<exec_depend>message_runtime</exec_depend>
+
+// CMakeLists.txt //
+find_package(catkin REQUIRED COMPONENTS
+   roscpp
+   rospy
+   std_msgs
+   message_generation
+)
+catkin_package(
+  ...
+  CATKIN_DEPENDS message_runtime ...
+  ...)
+
+add_message_files(
+  FILES
+  Num.msg
+)
+
+// 查看 //
+$ rosmsg show [message type]   $ rosmsg show beginner_tutorials/Num、
+
+
+
+// .srv  //
+$ roscd beginner_tutorials
+$ mkdir srv
+// package.xml  //
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+// CMakeLists.txt //
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  std_msgs
+  message_generation
+)
+add_service_files(
+  FILES
+  AddTwoInts.srv
+)
+
+// 查看 //
+$ rossrv show <service type>        $ rossrv show beginner_tutorials/AddTwoInts
+ 
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+)
+
+
+
+
+
+
+
+
+

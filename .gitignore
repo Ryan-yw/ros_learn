@@ -1,0 +1,4 @@
+rostest/build
+rostest/devel
+rostest/.*
+
