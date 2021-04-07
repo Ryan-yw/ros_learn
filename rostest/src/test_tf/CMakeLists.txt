@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(test)
+project(test_tf)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -10,8 +10,8 @@ project(test)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
-  std_msgs
-  message_generation
+  tf
+  turtlesim
 )
 
 ## System dependencies are found with CMake's conventions
@@ -54,11 +54,12 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-# Generate services in the 'srv' folder
-add_service_files(
-  FILES
-  AddTwoInts.srv
-)
+## Generate services in the 'srv' folder
+# add_service_files(
+#   FILES
+#   Service1.srv
+#   Service2.srv
+# )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
@@ -68,10 +69,10 @@ add_service_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   std_msgs  # Or other packages containing msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -104,8 +105,8 @@ generate_messages(
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES test
-#  CATKIN_DEPENDS roscpp rospy std_msgs
+#  LIBRARIES test_tf
+#  CATKIN_DEPENDS roscpp rospy tf turtlesim
 #  DEPENDS system_lib
 )
 
@@ -122,7 +123,7 @@ include_directories(
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/test.cpp
+#   src/${PROJECT_NAME}/test_tf.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -133,22 +134,15 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(talker src/talker.cpp)
-target_link_libraries(talker ${catkin_LIBRARIES})
-#add_dependencies(talker test_generate_messages_cpp)
+add_executable(turtle_tf_broadcaster src/turtle_tf_broadcaster.cpp)
+target_link_libraries(turtle_tf_broadcaster ${catkin_LIBRARIES})
 
+add_executable(turtle_tf_listener src/turtle_tf_listener.cpp)
+target_link_libraries(turtle_tf_listener ${catkin_LIBRARIES})
 
-add_executable(listener src/listener.cpp)
-target_link_libraries(listener ${catkin_LIBRARIES})
-#add_dependencies(listener test_generate_messages_cpp)
+add_executable(frame_tf_broadcaster src/frame_tf_broadcaster.cpp)
+target_link_libraries(frame_tf_broadcaster ${catkin_LIBRARIES})
 
-# add_executable(add_two_ints_server src/add_two_ints_server.cpp)
-# target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
-# #add_dependencies(add_two_ints_server beginner_tutorials_gencpp)
-
-# add_executable(add_two_ints_client src/add_two_ints_client.cpp)
-# target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
-# #add_dependencies(add_two_ints_client beginner_tutorials_gencpp)
 
 
 ## Rename C++ executable without prefix
@@ -213,7 +207,7 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_test.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_test_tf.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

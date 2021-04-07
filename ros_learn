@@ -58,14 +58,32 @@ Test Dependencies                  <test_depend>
 Build Tool Dependencies            <buildtool_depend>
 Documentation Tool Dependencies    <doc_depend>
 
+构建依赖项 ：指定编译功能包需要的依赖包
+构建导出依赖项 ：指定对功能包构建库需要依赖哪些功能包
+执行依赖项 exec_depend：指定运行该功能包所依赖的其他功能包
+测试依赖项 test_depend：指定进行单元测试的依赖包
+构建工具依赖项 buildtool_depend：指定构建该功能包使用的工具，默认使用 catkin
+文档工具依赖项 doc_depend：指定使用什么文档生成工具来为该功能包生成文档
 
 /-------------------------------节点------------------------------------/
 roscore 
 rosrun
-rosnode   $ rosrun [package_name] [node_name]
+rosnode   
+$ rosrun [package_name] [node_name]
 
 /------------------------------话题通信----------------------------------/
 rostopic
+// 发布者 //
+ros::init(,,"节点名node_name")
+ros::Publisher chatter_pub = n.advertise<std_msgs::String（发送的消息类型）>("话题名topic_name",发送队列个数)
+ros::Rate loop_rate(10hz发送循环频率)
+ROS_INFO(打在终端的信息)
+chatter_pub.publish(msg要发送的消息)
+// 接收者 //
+ros::init(,,"节点名node_name")
+ros::Subscriber sub = n.subscriber("话题名topic_name"，接受队列个数，回调函数)
+ros::spin() //等待接受消息中断
+
 
 /------------------------------服务通信----------------------------------/
 rosservice
@@ -80,6 +98,7 @@ $ rosrun rqt_logger_level rqt_logger_level
 
 
 /--------------------------------launch---------------------------------/
+https://blog.csdn.net/kongxunxiaowei/article/details/114781769
 $ roslaunch [package] [filename.launch]
 launch文件可同时启动多个节点
 
@@ -143,6 +162,8 @@ generate_messages(
   std_msgs
 )
 
+
+/--------------------------tf---------------------------------------/
 
 
 
