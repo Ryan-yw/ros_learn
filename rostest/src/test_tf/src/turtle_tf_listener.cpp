@@ -23,15 +23,18 @@ int main(int argc, char** argv)
     while (node.ok())
     {
         tf::StampedTransform transform;
-        // try
-        // {
-        //     listener.lookupTransform("/turtle2", "/turtle1",ros::Time(0), transform);
-        // }
         try
         {
-            ros::Time now = ros::Time::now();
-            listener.waitForTransform("/turtle2", "/turtle1", now, ros::Duration(3.0));
-            listener.lookupTransform("/turtle2", "/turtle1", now, transform);
+            ros::Time now = ros::Time::now();  //现在马上的时间，此时可能TF还没发送到缓存区
+
+            //listener.waitForTransform("/turtle2", "/carrot1", now, ros::Duration(3.0));
+            //listener.lookupTransform("/turtle2", "/turtle1", now, transform);
+            listener.lookupTransform("/turtle2", "/turtle1",ros::Time(0), transform);//上次可用的时间
+
+
+            // ros::Time past = ros::Time::now() - ros::Duration(5.0);
+            // listener.waitForTransform("/turtle2", "/turtle1",past, ros::Duration(1.0));
+            // listener.lookupTransform("/turtle2", "/turtle1",past, transform);
         }
         catch (tf::TransformException &ex)
         {

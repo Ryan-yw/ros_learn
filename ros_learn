@@ -1,3 +1,8 @@
+课程B站链接
+https://space.bilibili.com/97381697?spm_id_from=333.33.b_73656375726974794f75744c696e6b
+
+
+
 /--------------------------------安装------------------------------------------/
 https://wiki.ros.org/melodic/Installation/Ubuntu
 
@@ -98,7 +103,14 @@ $ rosrun rqt_logger_level rqt_logger_level
 
 
 /--------------------------------launch---------------------------------/
-https://blog.csdn.net/kongxunxiaowei/article/details/114781769
+launch文件中的参数说明：https://blog.csdn.net/kongxunxiaowei/article/details/114781769
+
+pkg:包名  
+type：节点名（可执行程序名字） 
+name：节点运行时的名称
+ns:节点名称空间属性
+args:节点输入参数
+
 $ roslaunch [package] [filename.launch]
 launch文件可同时启动多个节点
 
@@ -164,6 +176,9 @@ generate_messages(
 
 
 /--------------------------tf---------------------------------------/
+
+
+/------------------------------urdf-----------------------------------/
 
 
 
