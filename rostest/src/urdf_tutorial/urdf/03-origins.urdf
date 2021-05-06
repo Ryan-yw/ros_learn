@@ -11,7 +11,6 @@
   <link name="right_leg">
     <visual>
       <geometry>
-      <!-- 相对于地面坐标系的位置和转向，先定义好几何体，然后定义位置和姿态时几何体会跟随动作 -->
         <box size="0.6 0.1 0.2"/>
       </geometry>
       <origin rpy="0 1.57075 0" xyz="0 0 -0.3"/>
@@ -21,8 +20,7 @@
   <joint name="base_to_right_leg" type="fixed">
     <parent link="base_link"/>
     <child link="right_leg"/>
-    <origin xyz = "0 0 0"/>
-    <!-- <origin xyz="0 -0.22 0.25"/> -->
+    <origin xyz="0 -0.22 0.25"/>
   </joint>
 
 </robot>

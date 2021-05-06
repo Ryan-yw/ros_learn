@@ -29,12 +29,12 @@ int main(int argc, char** argv)
 
             //listener.waitForTransform("/turtle2", "/carrot1", now, ros::Duration(3.0));
             //listener.lookupTransform("/turtle2", "/turtle1", now, transform);
-            listener.lookupTransform("/turtle2", "/turtle1",ros::Time(0), transform);//上次可用的时间
+            //listener.lookupTransform("/turtle2", "/carrot1",ros::Time(0), transform);//上次可用的时间
 
 
-            // ros::Time past = ros::Time::now() - ros::Duration(5.0);
-            // listener.waitForTransform("/turtle2", "/turtle1",past, ros::Duration(1.0));
-            // listener.lookupTransform("/turtle2", "/turtle1",past, transform);
+            ros::Time past = ros::Time::now() - ros::Duration(5.0);
+            listener.waitForTransform("/turtle2", "/turtle1",past, ros::Duration(1.0));
+            listener.lookupTransform("/turtle2", "/turtle1",past, transform);
         }
         catch (tf::TransformException &ex)
         {

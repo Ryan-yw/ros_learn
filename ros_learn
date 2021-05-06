@@ -104,12 +104,20 @@ $ rosrun rqt_logger_level rqt_logger_level
 
 /--------------------------------launch---------------------------------/
 launch文件中的参数说明：https://blog.csdn.net/kongxunxiaowei/article/details/114781769
-
+		       https://www.cnblogs.com/yrm1160029237/p/10108161.html
 pkg:包名  
 type：节点名（可执行程序名字） 
 name：节点运行时的名称
 ns:节点名称空间属性
 args:节点输入参数
+rosparam:
+param:{
+1.group标签中的param标签的作用等同于rosparam set命令. 
+2.node标签中的param标签设置为该节点的子元素.
+3.在launch文件中也支持等同与rosparam load 功能的rosparam标签，用于一次性加载大量的参数
+4.在launch文件中设置parameter,使用param标签:
+}
+
 
 $ roslaunch [package] [filename.launch]
 launch文件可同时启动多个节点
@@ -179,11 +187,40 @@ generate_messages(
 
 
 /------------------------------urdf-----------------------------------/
+https://blog.csdn.net/weixin_43956732/article/details/106503609utm_term=xacro&utm_medium=distribute.pc_aggpage_search_result.none-task-blog-2~all~sobaiduweb~default-1-106503609&spm=3001.4430
+
+// 定义连杆 //
+定义几何体，几何中心在世界坐标系原点。设置连杆颜色，rviz中xyz(红绿蓝)。
+box size="0.6 0.1 0.2"  -> xyz
+<link:
+ <origin rpy="0 1.57075 0" xyz="0 0 -0.3"/>   连杆本身在地面坐标系下的变化
+/link>
+
+<geometry>
+<mesh filename="package://urdf_tutorial/meshes/l_finger.dae"/> //加载网格外观
+</geometry>
+// 定义关节 //
+  <joint name="base_to_right_leg" type="fixed">
+    <parent link="base_link"/>
+    <child link="right_leg"/>
+    <origin xyz="0 -0.22 0.25"/>    //子连杆会跟随关节坐标系移动和旋转（在连杆设置完之后一起跟随）
+  </joint>
+注：需指定关节名字，类型，父连杆，子连杆，关节位置
+fix:固定
+continuous：连续旋转无限制
+revolute：有限制的旋转，effort:力 lower/upper：角度上下限 ； velocity：最大速度
 
 
+// xacro //
+<xacro:property name="width" value="0.2" />   //单个属性
+<xacro:macro name="wheel" params="prefix suffix reflect">  //多个属性，块
 
+/-----------------------------turtlebot3---------------------------------/
+https://blog.csdn.net/weixin_39622562/article/details/110310253
 
-
+/-------------------------------gazebo----------------------------------/
+https://blog.csdn.net/qq_43855855/article/details/107443865
+https://blog.csdn.net/weixin_42044401/article/details/111510904
 
 
 
